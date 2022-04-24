@@ -41,7 +41,6 @@ void PlayerControl::Awake()
 void PlayerControl::Update(float deltaTime)
 {
 	_isMoving = false;
-	_justThrew = false;
 
 	bool moveLeft = InputEngine::GetKeyState(GLFW_KEY_A) == ButtonState::Down;
 	bool moveRight = InputEngine::GetKeyState(GLFW_KEY_D) == ButtonState::Down;
@@ -52,9 +51,27 @@ void PlayerControl::Update(float deltaTime)
 	bool turnLeft = InputEngine::GetKeyState(GLFW_KEY_LEFT) == ButtonState::Down;
 
 	bool sprint = InputEngine::GetKeyState(GLFW_KEY_LEFT_SHIFT) == ButtonState::Down;
-	bool wangin = InputEngine::GetKeyState(GLFW_KEY_KP_0) == ButtonState::Down ||
-		InputEngine::GetKeyState(GLFW_KEY_RIGHT_CONTROL) == ButtonState::Down;
 
+	if (Application::Get().IsFocused) {
+		if (InputEngine::GetMouseState(GLFW_MOUSE_BUTTON_LEFT) == ButtonState::Pressed) {
+			_prevMousePos = InputEngine::GetMousePos();
+		}
+
+		if (InputEngine::IsMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
+			glm::dvec2 currentMousePos = InputEngine::GetMousePos();
+			glm::dvec2 delta = currentMousePos - _prevMousePos;
+
+			_currentRot.x += static_cast<float>(delta.x) * _mouseSensitivity.x;
+			//_currentRot.y += static_cast<float>(delta.y) * _mouseSensitivity.y;
+			glm::quat rotX = glm::angleAxis(glm::radians(_currentRot.x), glm::vec3(0, 0, 1));
+			glm::quat rotY = glm::angleAxis(glm::radians(_currentRot.y), glm::vec3(1, 0, 0));
+			glm::quat currentRot = rotX * rotY;
+			GetGameObject()->SetRotation(currentRot);
+
+			_prevMousePos = currentMousePos;
+		}
+	}
+	_prevMousePos = InputEngine::GetMousePos();
 	/*
 	if (!InputEngine::GetEnabled())
 	{
@@ -99,22 +116,9 @@ void PlayerControl::Update(float deltaTime)
 
 	glm::vec3 worldMovement = glm::vec3((currentRot * glm::vec4(input, 1.0f)).x, (currentRot * glm::vec4(input, 1.0f)).y, 0.0f);
 
-	if (worldMovement != glm::vec3(0.0f))
-	{
-		worldMovement = 10.0f * glm::normalize(worldMovement);
-
-		_timeBetStep += deltaTime;
-	}
-
-
-	else _timeBetStep = 1.5f;
 	GetGameObject()->Get<Gameplay::Physics::RigidBody>()->ApplyForce(worldMovement);
 
-	if (GetGameObject()->GetPosition().z < -5) {
-		GetGameObject()->SetPosition({ 2,-2,4 });
-	}
-
-		GetGameObject()->GetChildren()[0]->Get<Gameplay::Camera>()->SetFovDegrees(_initialFov);
+	GetGameObject()->GetChildren()[0]->Get<Gameplay::Camera>()->SetFovDegrees(_initialFov);
 
 }
 

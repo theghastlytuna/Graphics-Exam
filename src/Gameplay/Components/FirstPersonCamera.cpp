@@ -32,6 +32,7 @@ void FirstPersonCamera::Awake()
 
 void FirstPersonCamera::Update(float deltaTime)
 {
+	/*
 		bool turnUp;
 		bool turnDown;
 
@@ -48,10 +49,30 @@ void FirstPersonCamera::Update(float deltaTime)
 		glm::quat rotX = glm::angleAxis(glm::radians(180.0f), glm::vec3(0, 0, 1));
 		glm::quat rotY = glm::angleAxis(glm::radians(-_currentRot.y), glm::vec3(1, 0, 0));
 
-
 		glm::quat currentRot = rotX * rotY;
 
 		GetGameObject()->SetRotation(currentRot);
+	*/
+	if (Application::Get().IsFocused) {
+		if (InputEngine::GetMouseState(GLFW_MOUSE_BUTTON_LEFT) == ButtonState::Pressed) {
+			_prevMousePos = InputEngine::GetMousePos();
+		}
+
+		if (InputEngine::IsMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
+			glm::dvec2 currentMousePos = InputEngine::GetMousePos();
+			glm::dvec2 delta = currentMousePos - _prevMousePos;
+
+			//_currentRot.x += static_cast<float>(delta.x) * _mouseSensitivity.x;
+			_currentRot.y += static_cast<float>(delta.y) * _mouseSensitivity.y;
+			glm::quat rotX = glm::angleAxis(glm::radians(_currentRot.x), glm::vec3(0, 0, 1));
+			glm::quat rotY = glm::angleAxis(glm::radians(_currentRot.y), glm::vec3(1, 0, 0));
+			glm::quat currentRot = rotX * rotY;
+			GetGameObject()->SetRotation(currentRot);
+
+			_prevMousePos = currentMousePos;
+		}
+	}
+	_prevMousePos = InputEngine::GetMousePos();
 }
 
 void FirstPersonCamera::RenderImGui()
