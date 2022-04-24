@@ -123,7 +123,10 @@
     <ClInclude Include="src\Application\Layers\PostProcessing\BoxFilter5x5.h" />
     <ClInclude Include="src\Application\Layers\PostProcessing\ColorCorrectionEffect.h" />
     <ClInclude Include="src\Application\Layers\PostProcessing\DepthOfField.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\FilmGrain.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\NightVision.h" />
     <ClInclude Include="src\Application\Layers\PostProcessing\OutlineEffect.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\PixelizationEffect.h" />
     <ClInclude Include="src\Application\Layers\PostProcessingLayer.h" />
     <ClInclude Include="src\Application\Layers\RenderLayer.h" />
     <ClInclude Include="src\Application\Timing.h" />
@@ -136,6 +139,7 @@
     <ClInclude Include="src\Application\Windows\TextureWindow.h" />
     <ClInclude Include="src\Gameplay\Components\Camera.h" />
     <ClInclude Include="src\Gameplay\Components\ComponentManager.h" />
+    <ClInclude Include="src\Gameplay\Components\FirstPersonCamera.h" />
     <ClInclude Include="src\Gameplay\Components\GUI\GuiPanel.h" />
     <ClInclude Include="src\Gameplay\Components\GUI\GuiText.h" />
     <ClInclude Include="src\Gameplay\Components\GUI\RectTransform.h" />
@@ -144,6 +148,7 @@
     <ClInclude Include="src\Gameplay\Components\Light.h" />
     <ClInclude Include="src\Gameplay\Components\MaterialSwapBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\ParticleSystem.h" />
+    <ClInclude Include="src\Gameplay\Components\PlayerControl.h" />
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h" />
     <ClInclude Include="src\Gameplay\Components\RotatingBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\ShadowCamera.h" />
@@ -218,7 +223,10 @@
     <ClCompile Include="src\Application\Layers\PostProcessing\BoxFilter5x5.cpp" />
     <ClCompile Include="src\Application\Layers\PostProcessing\ColorCorrectionEffect.cpp" />
     <ClCompile Include="src\Application\Layers\PostProcessing\DepthOfField.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\FilmGrain.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\NightVision.cpp" />
     <ClCompile Include="src\Application\Layers\PostProcessing\OutlineEffect.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\PixelizationEffect.cpp" />
     <ClCompile Include="src\Application\Layers\PostProcessingLayer.cpp" />
     <ClCompile Include="src\Application\Layers\RenderLayer.cpp" />
     <ClCompile Include="src\Application\Windows\DebugWindow.cpp" />
@@ -229,6 +237,7 @@
     <ClCompile Include="src\Application\Windows\PostProcessingSettingsWindow.cpp" />
     <ClCompile Include="src\Application\Windows\TextureWindow.cpp" />
     <ClCompile Include="src\Gameplay\Components\Camera.cpp" />
+    <ClCompile Include="src\Gameplay\Components\FirstPersonCamera.cpp" />
     <ClCompile Include="src\Gameplay\Components\GUI\GuiPanel.cpp" />
     <ClCompile Include="src\Gameplay\Components\GUI\GuiText.cpp" />
     <ClCompile Include="src\Gameplay\Components\GUI\RectTransform.cpp" />
@@ -237,6 +246,7 @@
     <ClCompile Include="src\Gameplay\Components\Light.cpp" />
     <ClCompile Include="src\Gameplay\Components\MaterialSwapBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\ParticleSystem.cpp" />
+    <ClCompile Include="src\Gameplay\Components\PlayerControl.cpp" />
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\RotatingBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\ShadowCamera.cpp" />

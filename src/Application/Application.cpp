@@ -44,6 +44,8 @@
 #include "Gameplay/Components/ParticleSystem.h"
 #include "Gameplay/Components/Light.h"
 #include "Gameplay/Components/ShadowCamera.h"
+#include "Gameplay/Components/FirstPersonCamera.h"
+#include "Gameplay/Components/PlayerControl.h"
 
 // GUI
 #include "Gameplay/Components/GUI/RectTransform.h"
@@ -275,6 +277,8 @@ void Application::_RegisterClasses()
 	ComponentManager::RegisterType<ParticleSystem>();
 	ComponentManager::RegisterType<Light>();
 	ComponentManager::RegisterType<ShadowCamera>();
+	ComponentManager::RegisterType<FirstPersonCamera>();
+	ComponentManager::RegisterType<PlayerControl>();
 }
 
 void Application::_Load() {

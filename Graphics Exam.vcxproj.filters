@@ -90,7 +90,16 @@
     <ClInclude Include="src\Application\Layers\PostProcessing\DepthOfField.h">
       <Filter>Application\Layers\PostProcessing</Filter>
     </ClInclude>
+    <ClInclude Include="src\Application\Layers\PostProcessing\FilmGrain.h">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Layers\PostProcessing\NightVision.h">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClInclude>
     <ClInclude Include="src\Application\Layers\PostProcessing\OutlineEffect.h">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Layers\PostProcessing\PixelizationEffect.h">
       <Filter>Application\Layers\PostProcessing</Filter>
     </ClInclude>
     <ClInclude Include="src\Application\Layers\PostProcessingLayer.h">
@@ -129,6 +138,9 @@
     <ClInclude Include="src\Gameplay\Components\ComponentManager.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\FirstPersonCamera.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\Components\GUI\GuiPanel.h">
       <Filter>Gameplay\Components\GUI</Filter>
     </ClInclude>
@@ -151,6 +163,9 @@
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Components\ParticleSystem.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\PlayerControl.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h">
@@ -371,7 +386,16 @@
     <ClCompile Include="src\Application\Layers\PostProcessing\DepthOfField.cpp">
       <Filter>Application\Layers\PostProcessing</Filter>
     </ClCompile>
+    <ClCompile Include="src\Application\Layers\PostProcessing\FilmGrain.cpp">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\Layers\PostProcessing\NightVision.cpp">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClCompile>
     <ClCompile Include="src\Application\Layers\PostProcessing\OutlineEffect.cpp">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\Layers\PostProcessing\PixelizationEffect.cpp">
       <Filter>Application\Layers\PostProcessing</Filter>
     </ClCompile>
     <ClCompile Include="src\Application\Layers\PostProcessingLayer.cpp">
@@ -404,6 +428,9 @@
     <ClCompile Include="src\Gameplay\Components\Camera.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\FirstPersonCamera.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gameplay\Components\GUI\GuiPanel.cpp">
       <Filter>Gameplay\Components\GUI</Filter>
     </ClCompile>
@@ -426,6 +453,9 @@
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\ParticleSystem.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\PlayerControl.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp">
