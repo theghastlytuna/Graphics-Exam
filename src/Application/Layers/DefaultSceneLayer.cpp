@@ -463,7 +463,7 @@ void DefaultSceneLayer::_CreateScene()
 
 		GameObject::Sptr enemy = scene->CreateGameObject("Enemy");
 		{
-			enemy->SetPosition(glm::vec3(-10.f, 0.f, 4.f));
+			enemy->SetPosition(glm::vec3(-28, -0.1, 11));
 
 			MeshResource::Sptr cube = ResourceManager::CreateAsset<MeshResource>();
 			cube->AddParam(MeshBuilderParam::CreateCube(ZERO, ONE));
@@ -481,7 +481,7 @@ void DefaultSceneLayer::_CreateScene()
 			trigger->SetFlags(TriggerTypeFlags::Dynamics);
 			trigger->AddCollider(BoxCollider::Create(glm::vec3(2.0f)));
 
-			//enemy->Add<TriggerVolumeEnterBehaviour>();
+			enemy->Add<TriggerVolumeEnterBehaviour>();
 		}
 
 		GameObject::Sptr snake = scene->CreateGameObject("Snake");
@@ -536,7 +536,7 @@ void DefaultSceneLayer::_CreateScene()
 			trigger->SetFlags(TriggerTypeFlags::Dynamics);
 			trigger->AddCollider(BoxCollider::Create(glm::vec3(2.0f)));
 
-			//winTrigger->Add<TriggerVolumeEnterBehaviour>();
+			winTrigger->Add<TriggerVolumeEnterBehaviour>();
 		}
 
 		GameObject::Sptr shadowCaster = scene->CreateGameObject("Shadow Light");
@@ -550,27 +550,84 @@ void DefaultSceneLayer::_CreateScene()
 			shadowCam->SetProjection(glm::perspective(glm::radians(120.0f), 1.0f, 0.1f, 100.0f));
 		}
 
-		GameObject::Sptr particles = scene->CreateGameObject("Particles"); 
+		GameObject::Sptr ballParticles = scene->CreateGameObject("Particles"); 
 		{
-			particles->SetPosition({ -2.0f, 0.0f, 2.0f });
+			ballParticles->SetPosition({ 0.0f, 0.0f, 0.0f });
 
-			ParticleSystem::Sptr particleManager = particles->Add<ParticleSystem>();  
+			ParticleSystem::Sptr particleManager = ballParticles->Add<ParticleSystem>();  
 			particleManager->Atlas = particleTex;
 
 			ParticleSystem::ParticleData emitter;
 			emitter.Type = ParticleType::SphereEmitter;
-			emitter.TexID = 2;
+			emitter.TexID = 4;
 			emitter.Position = glm::vec3(0.0f);
 			emitter.Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 			emitter.Lifetime = 0.0f;
-			emitter.SphereEmitterData.Timer = 1.0f / 50.0f;
+			emitter.SphereEmitterData.Timer = 1.0f / 30.0f;
 			emitter.SphereEmitterData.Velocity = 0.5f;
-			emitter.SphereEmitterData.LifeRange = { 1.0f, 4.0f };
-			emitter.SphereEmitterData.Radius = 1.0f;
-			emitter.SphereEmitterData.SizeRange = { 0.5f, 1.5f };
+			emitter.SphereEmitterData.LifeRange = { 2.5f, 4.5f };
+			emitter.SphereEmitterData.Radius = 2.38f;
+			emitter.SphereEmitterData.SizeRange = { 0.5f, 2.f };
+
+			particleManager->AddEmitter(emitter);
+
+			enemy->AddChild(ballParticles);
+			
+
+		}
+
+		GameObject::Sptr snakeParticles = scene->CreateGameObject("snakeFire");
+		{
+			snakeParticles->SetPosition({-28,-0.1,11});
+			snakeParticles->SetRotation({ 0,90,0});
+
+			ParticleSystem::Sptr particleManager = snakeParticles->Add<ParticleSystem>();
+			particleManager->Atlas = particleTex;
+			particleManager->_gravity = glm::vec3(0);
+			ParticleSystem::ParticleData emitter;
+			emitter.Type = ParticleType::ConeEmitter;
+			emitter.TexID = 2;
+			emitter.Position = glm::vec3(0.0f);
+			emitter.Color = glm::vec4(1.f, 0.1f, 0.0f, 1.0f);
+			emitter.Lifetime = 0.0f;
+
+
+			emitter.ConeEmitterData.Velocity = glm::vec3(0, 0, 2.f);
+			emitter.ConeEmitterData.Angle = 40.f;
+			emitter.ConeEmitterData.Timer = 1.0f / 3.0f;
+			emitter.ConeEmitterData.SizeRange = { 3.5, 5.5 };
+			emitter.ConeEmitterData.LifeRange = { 1.0f, 5.0f };
+
 
 			particleManager->AddEmitter(emitter);
 		}
+
+		GameObject::Sptr treeParticles = scene->CreateGameObject("leaves");
+		{
+			treeParticles->SetPosition({ -30,-26.5, 21.5 });
+			treeParticles->SetRotation({ -177,0,0 });
+
+			ParticleSystem::Sptr particleManager = treeParticles->Add<ParticleSystem>();
+			particleManager->Atlas = particleTex;
+			particleManager->_gravity = glm::vec3(0,0,-9.81);
+			ParticleSystem::ParticleData emitter;
+			emitter.Type = ParticleType::ConeEmitter;
+			emitter.TexID = 1;
+			emitter.Position = glm::vec3(0.0f);
+			emitter.Color = glm::vec4(1.f, 0.5f, 0.0f, 1.0f);
+			emitter.Lifetime = 0.0f;
+
+
+			emitter.ConeEmitterData.Velocity = glm::vec3(0, 0, -2.f);
+			emitter.ConeEmitterData.Angle = 90.f;
+			emitter.ConeEmitterData.Timer = 1.0f / 3.0f;
+			emitter.ConeEmitterData.SizeRange = { 1.5, 3.5 };
+			emitter.ConeEmitterData.LifeRange = { 3.0f, 7.0f };
+
+
+			particleManager->AddEmitter(emitter);
+		}
+
 
 		//UI
 		GameObject::Sptr winText = scene->CreateGameObject("Win Text");
