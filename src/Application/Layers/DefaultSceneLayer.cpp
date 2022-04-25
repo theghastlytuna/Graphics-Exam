@@ -384,6 +384,8 @@ void DefaultSceneLayer::_CreateScene()
 			physics->SetLinearDamping(0.6f);
 			physics->SetMass(1.f);
 
+			player->Add<JumpBehaviour>();
+
 			PlayerControl::Sptr controller = player->Add<PlayerControl>();
 
 			player->AddChild(detachedCam);
@@ -438,25 +440,17 @@ void DefaultSceneLayer::_CreateScene()
 			plane->AddChild(wall4);
 		}
 
-		GameObject::Sptr monkey1 = scene->CreateGameObject("Monkey 1");
+		GameObject::Sptr winTrigger = scene->CreateGameObject("Win Trigger");
 		{
 			// Set position in the scene
-			monkey1->SetPosition(glm::vec3(1.5f, 0.0f, 1.0f));
-
-			// Add some behaviour that relies on the physics body
-			monkey1->Add<JumpBehaviour>();
-
-			// Create and attach a renderer for the monkey
-			RenderComponent::Sptr renderer = monkey1->Add<RenderComponent>();
-			renderer->SetMesh(monkeyMesh);
-			renderer->SetMaterial(monkeyMaterial);
+			winTrigger->SetPosition(glm::vec3(6.f, 0.0f, 1.0f));
 
 			// Example of a trigger that interacts with static and kinematic bodies as well as dynamic bodies
-			TriggerVolume::Sptr trigger = monkey1->Add<TriggerVolume>();
-			trigger->SetFlags(TriggerTypeFlags::Statics | TriggerTypeFlags::Kinematics);
-			trigger->AddCollider(BoxCollider::Create(glm::vec3(1.0f)));
+			TriggerVolume::Sptr trigger = winTrigger->Add<TriggerVolume>();
+			trigger->SetFlags(TriggerTypeFlags::Dynamics);
+			trigger->AddCollider(BoxCollider::Create(glm::vec3(2.0f)));
 
-			monkey1->Add<TriggerVolumeEnterBehaviour>();
+			winTrigger->Add<TriggerVolumeEnterBehaviour>();
 		}
 
 		GameObject::Sptr shadowCaster = scene->CreateGameObject("Shadow Light");
@@ -491,6 +485,31 @@ void DefaultSceneLayer::_CreateScene()
 
 			particleManager->AddEmitter(emitter);
 		}
+
+		//UI
+		GameObject::Sptr winText = scene->CreateGameObject("Win Text");
+		{
+			RectTransform::Sptr transform = winText->Add<RectTransform>();
+			transform->SetMin({ 0, 0 });
+			transform->SetMax({ app.GetWindowSize().x, app.GetWindowSize().y });
+
+			GuiPanel::Sptr panel = winText->Add<GuiPanel>();
+			panel->SetTexture(ResourceManager::CreateAsset<Texture2D>("textures/win_screen.png"));
+
+			panel->SetTransparency(0.0f);
+		}
+		GameObject::Sptr loseText = scene->CreateGameObject("P1 Wins Text");
+		{
+			RectTransform::Sptr transform = loseText->Add<RectTransform>();
+			transform->SetMin({ 0, 0 });
+			transform->SetMax({ app.GetWindowSize().x, app.GetWindowSize().y });
+
+			GuiPanel::Sptr panel = loseText->Add<GuiPanel>();
+			panel->SetTexture(ResourceManager::CreateAsset<Texture2D>("textures/lose_screen.png"));
+
+			panel->SetTransparency(0.0f);
+		}
+
 
 		GuiBatcher::SetDefaultTexture(ResourceManager::CreateAsset<Texture2D>("textures/ui-sprite.png"));
 		GuiBatcher::SetDefaultBorderRadius(8);

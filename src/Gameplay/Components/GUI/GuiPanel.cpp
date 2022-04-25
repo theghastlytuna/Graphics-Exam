@@ -21,6 +21,11 @@ const glm::vec4& GuiPanel::GetColor() const {
 	return _color;
 }
 
+void GuiPanel::SetTransparency(const float transparency)
+{
+	_color.w = transparency;
+}
+
 int GuiPanel::GetBorderRadius() const {
 	return _borderRadius;
 }

@@ -357,7 +357,7 @@ void RenderLayer::_Composite()
 	);
 
 	// Use our cubemap to draw our skybox
-	scene->DrawSkybox();
+	//scene->DrawSkybox();
 
 	_outputBuffer->Unbind();
 }

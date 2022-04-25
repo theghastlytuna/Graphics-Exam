@@ -25,6 +25,8 @@ public:
 	/// </summary>
 	const glm::vec4& GetColor() const;
 
+	void SetTransparency(const float transparency);
+
 	/// <summary>
 	/// Gets the border radius for this GUI object in pixels
 	/// </summary>
