@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{81A27696-ED62-F2CC-B69D-3B4A221D37A9}</ProjectGuid>
+    <ProjectGuid>{0EE16197-7AA1-DDCD-43DC-264BAF5B22AA}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Graphics Exam</RootNamespace>
+    <RootNamespace>Graphics-Exam</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -42,16 +42,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\bin\Debug-windows-x86_64\Graphics Exam\</OutDir>
-    <IntDir>..\..\obj\Debug-windows-x86_64\Graphics Exam\</IntDir>
-    <TargetName>Graphics Exam</TargetName>
+    <OutDir>..\..\bin\Debug-windows-x86_64\Graphics-Exam\</OutDir>
+    <IntDir>..\..\obj\Debug-windows-x86_64\Graphics-Exam\</IntDir>
+    <TargetName>Graphics-Exam</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\bin\Release-windows-x86_64\Graphics Exam\</OutDir>
-    <IntDir>..\..\obj\Release-windows-x86_64\Graphics Exam\</IntDir>
-    <TargetName>Graphics Exam</TargetName>
+    <OutDir>..\..\bin\Release-windows-x86_64\Graphics-Exam\</OutDir>
+    <IntDir>..\..\obj\Release-windows-x86_64\Graphics-Exam\</IntDir>
+    <TargetName>Graphics-Exam</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -187,6 +187,7 @@
     <ClInclude Include="src\Graphics\Textures\ITexture.h" />
     <ClInclude Include="src\Graphics\Textures\Texture1D.h" />
     <ClInclude Include="src\Graphics\Textures\Texture2D.h" />
+    <ClInclude Include="src\Graphics\Textures\Texture2DArray.h" />
     <ClInclude Include="src\Graphics\Textures\Texture3D.h" />
     <ClInclude Include="src\Graphics\Textures\TextureCube.h" />
     <ClInclude Include="src\Graphics\VertexArrayObject.h" />
@@ -281,6 +282,7 @@
     <ClCompile Include="src\Graphics\Textures\ITexture.cpp" />
     <ClCompile Include="src\Graphics\Textures\Texture1D.cpp" />
     <ClCompile Include="src\Graphics\Textures\Texture2D.cpp" />
+    <ClCompile Include="src\Graphics\Textures\Texture2DArray.cpp" />
     <ClCompile Include="src\Graphics\Textures\Texture3D.cpp" />
     <ClCompile Include="src\Graphics\Textures\TextureCube.cpp" />
     <ClCompile Include="src\Graphics\VertexArrayObject.cpp" />

@@ -14,8 +14,8 @@ PixelizationEffect::PixelizationEffect() :
 	_format = RenderTargetType::ColorRgb8;
 
 	//memset(Pixels, 0, sizeof(float) * 25);
-	PixelsX = 640;
-	PixelsY = 480;
+	PixelsX = 300;
+	PixelsY = 300;
 	Power = 1;
 	_shader = ResourceManager::CreateAsset<ShaderProgram>(std::unordered_map<ShaderPartType, std::string>{
 		{ ShaderPartType::Vertex, "shaders/vertex_shaders/fullscreen_quad.glsl" },
