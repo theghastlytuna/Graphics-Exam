@@ -364,6 +364,7 @@ void DefaultSceneLayer::_CreateScene()
 			FirstPersonCamera::Sptr cameraControl = detachedCam->Add<FirstPersonCamera>();
 
 			Camera::Sptr cam = detachedCam->Add<Camera>();
+			cam->SetFovDegrees(60);
 			scene->MainCamera = cam;
 		}
 
@@ -375,7 +376,7 @@ void DefaultSceneLayer::_CreateScene()
 			player->SetScale(glm::vec3(1.f));
 
 			RigidBody::Sptr physics = player->Add<RigidBody>(RigidBodyType::Dynamic);
-			physics->AddCollider(BoxCollider::Create(glm::vec3(0.4f, 1.2f, 0.4f)))->SetPosition(glm::vec3(0.0f, 0.95f, 0.0f));
+			physics->AddCollider(BoxCollider::Create(glm::vec3(0.2f)))->SetPosition(glm::vec3(0.0f, 0.95f, 0.0f));
 			physics->SetAngularFactor(glm::vec3(0.f));
 			physics->SetLinearDamping(0.6f);
 			physics->SetMass(1.f);
