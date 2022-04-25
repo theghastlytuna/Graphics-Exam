@@ -19,5 +19,19 @@ void main() {
     vec3 specular = texture(s_SpecularAccumulation, inUV).rgb;
     vec4 emissive = texture(s_Emissive, inUV);
 
-	outColor = vec4(albedo * (diffuse + specular + (emissive.rgb * emissive.a)), 1.0);
+    vec3 normal = texture(s_NormalsMetallic, inUV).rgb;
+
+    if (IsFlagSet(FLAG_ENABLE_DIFFUSE_LIGHT))
+    {
+
+        outColor = vec4(albedo * (diffuse + 0 + (emissive.rgb * emissive.a)), 1.0);
+    }
+
+    else if (IsFlagSet(FLAG_ENABLE_SPECULAR_LIGHT))
+    {
+        outColor = vec4(albedo * (0 + specular + (emissive.rgb * emissive.a)), 1.0);
+    }
+
+    else outColor = vec4(albedo * (diffuse + specular + (emissive.rgb * emissive.a)), 1.0);
+    
 }

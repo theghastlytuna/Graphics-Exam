@@ -217,8 +217,43 @@ void Application::_Run()
 		timing._timeSinceSceneLoad += scaledDt;
 		timing._unscaledTimeSinceSceneLoad += dt;
 
-		ImGuiHelper::StartFrame();
+		if (InputEngine::GetKeyState(GLFW_KEY_1) == ButtonState::Pressed)
+		{
+			if (GetLayer<RenderLayer>()->GetRenderFlags() == RenderFlags::EnableDiffuseLight)
+			{
+				GetLayer<RenderLayer>()->SetRenderFlags(RenderFlags::None);
+			}
+			else
+			{
+				GetLayer<RenderLayer>()->SetRenderFlags(RenderFlags::EnableDiffuseLight);
+			}
+		}
+		else if (InputEngine::GetKeyState(GLFW_KEY_2) == ButtonState::Pressed)
+		{
+			if (GetLayer<RenderLayer>()->GetRenderFlags() == RenderFlags::EnableAmbientLight)
+			{
+				GetLayer<RenderLayer>()->SetRenderFlags(RenderFlags::None);
+			}
+			else
+			{
+				GetLayer<RenderLayer>()->SetRenderFlags(RenderFlags::EnableAmbientLight);
+			}
+		}
+		else if (InputEngine::GetKeyState(GLFW_KEY_3) == ButtonState::Pressed)
+		{
+			if (GetLayer<RenderLayer>()->GetRenderFlags() == RenderFlags::EnableSpecularLight)
+			{
+				GetLayer<RenderLayer>()->SetRenderFlags(RenderFlags::None);
+			}
+			else
+			{
+				GetLayer<RenderLayer>()->SetRenderFlags(RenderFlags::EnableSpecularLight);
+			}
+		}
 
+
+		ImGuiHelper::StartFrame();
+		
 		// Core update loop
 		if (_currentScene != nullptr) {
 			_Update();

@@ -80,6 +80,25 @@ vec3 CalcPointLightContribution(vec3 worldPos, vec3 normal, vec3 viewDir, Light 
 
 	return (diffuseOut + specularOut) * attenuation;
 }
+vec3 CalcSpecLightContribution(vec3 worldPos, vec3 normal, vec3 viewDir, Light light, float shininess) {
+	// Get the direction to the light in world space
+	vec3 toLight = light.Position.xyz - worldPos;
+	// Get distance between fragment and light
+	float dist = length(toLight);
+	// Normalize toLight for other calculations
+	toLight = normalize(toLight);
+
+	// Halfway vector between light normal and direction to camera
+	vec3 halfDir     = normalize(toLight + viewDir);
+
+	// Calculate our specular power
+	float specPower  = pow(max(dot(normal, halfDir), 0.0), pow(256, shininess));
+	// Calculate specular color
+	vec3 specularOut = specPower * light.ColorAttenuation.rgb;
+
+
+	return specularOut;
+}
 
 /*
  * Calculates the lighting contribution for all lights in the scene
@@ -99,6 +118,45 @@ vec3 CalcAllLightContribution(vec3 worldPos, vec3 normal, vec3 camPos, float shi
 	for(int ix = 0; ix < AmbientColAndNumLights.w && ix < MAX_LIGHTS; ix++) {
 		// Additive lighting model
 		lightAccumulation += CalcPointLightContribution(worldPos, normal, viewDir, Lights[ix], shininess);
+	}
+
+	return lightAccumulation;
+}
+
+vec3 CalcAmbientLight()
+{
+	return AmbientColAndNumLights.rgb;
+}
+
+vec3 CalcSpecularLight(vec3 worldPos, vec3 normal, vec3 camPos, float shininess)
+{
+    // Will accumulate the contributions of all lights on this fragment
+	vec3 lightAccumulation = vec3(0);
+
+	// Direction between camera and fragment will be shared for all lights
+	vec3 viewDir  = normalize(camPos - worldPos);
+	
+	// Iterate over all lights
+	for(int ix = 0; ix < AmbientColAndNumLights.w && ix < MAX_LIGHTS; ix++) {
+		// Additive lighting model
+		lightAccumulation += CalcSpecLightContribution(worldPos, normal, viewDir, Lights[ix], shininess);
+	}
+
+	return lightAccumulation;
+}
+
+vec3 CalcAmbientSpecularLight(vec3 worldPos, vec3 normal, vec3 camPos, float shininess)
+{
+    // Will accumulate the contributions of all lights on this fragment
+	vec3 lightAccumulation = AmbientColAndNumLights.rgb;
+
+	// Direction between camera and fragment will be shared for all lights
+	vec3 viewDir  = normalize(camPos - worldPos);
+	
+	// Iterate over all lights
+	for(int ix = 0; ix < AmbientColAndNumLights.w && ix < MAX_LIGHTS; ix++) {
+		// Additive lighting model
+		lightAccumulation += CalcSpecLightContribution(worldPos, normal, viewDir, Lights[ix], shininess);
 	}
 
 	return lightAccumulation;
