@@ -50,6 +50,7 @@
 #include "Gameplay/Components/SimpleCameraControl.h"
 #include "Gameplay/Components/FirstPersonCamera.h"
 #include "Gameplay/Components/PlayerControl.h"
+#include "Gameplay/Components/EnemyBehaviour.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -79,13 +80,40 @@ DefaultSceneLayer::DefaultSceneLayer() :
 	ApplicationLayer()
 {
 	Name = "Default Scene";
-	Overrides = AppLayerFunctions::OnAppLoad;
+	Overrides = AppLayerFunctions::OnAppLoad |
+				AppLayerFunctions::OnWindowResize;
 }
 
 DefaultSceneLayer::~DefaultSceneLayer() = default;
 
 void DefaultSceneLayer::OnAppLoad(const nlohmann::json& config) {
 	_CreateScene();
+	SetActive(false);
+}
+
+void DefaultSceneLayer::SetActive(bool active)
+{
+	_active = active;
+}
+
+void DefaultSceneLayer::RepositionUI()
+{
+	Application& app = Application::Get();
+
+	Gameplay::GameObject::Sptr winScreen = app.CurrentScene()->FindObjectByName("Win Text");
+	Gameplay::GameObject::Sptr loseScreen = app.CurrentScene()->FindObjectByName("Lose Text");
+
+	winScreen->Get<RectTransform>()->SetMin({ 0, 0 });
+	winScreen->Get<RectTransform>()->SetMax({app.GetWindowSize().x, app.GetWindowSize().y });
+
+	loseScreen->Get<RectTransform>()->SetMin({ 0, 0 });
+	loseScreen->Get<RectTransform>()->SetMax({ app.GetWindowSize().x, app.GetWindowSize().y });
+
+}
+
+bool DefaultSceneLayer::IsActive()
+{
+	return _active;
 }
 
 void DefaultSceneLayer::_CreateScene()
@@ -391,6 +419,25 @@ void DefaultSceneLayer::_CreateScene()
 			player->AddChild(detachedCam);
 		}
 
+		GameObject::Sptr enemy = scene->CreateGameObject("Enemy");
+		{
+			enemy->SetPosition(glm::vec3(-10.f, 0.f, 4.f));
+
+			// Create and attach a RenderComponent to the object to draw our mesh
+			RenderComponent::Sptr renderer = enemy->Add<RenderComponent>();
+			renderer->SetMesh(monkeyMesh);
+			renderer->SetMaterial(monkeyMaterial);
+
+			enemy->Add<EnemyBehaviour>();
+
+			// Example of a trigger that interacts with static and kinematic bodies as well as dynamic bodies
+			TriggerVolume::Sptr trigger = enemy->Add<TriggerVolume>();
+			trigger->SetFlags(TriggerTypeFlags::Dynamics);
+			trigger->AddCollider(BoxCollider::Create(glm::vec3(2.0f)));
+
+			enemy->Add<TriggerVolumeEnterBehaviour>();
+		}
+
 		// Set up all our sample objects
 		GameObject::Sptr plane = scene->CreateGameObject("Plane");
 		{
@@ -498,7 +545,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			panel->SetTransparency(0.0f);
 		}
-		GameObject::Sptr loseText = scene->CreateGameObject("P1 Wins Text");
+		GameObject::Sptr loseText = scene->CreateGameObject("Lose Text");
 		{
 			RectTransform::Sptr transform = loseText->Add<RectTransform>();
 			transform->SetMin({ 0, 0 });
@@ -521,5 +568,7 @@ void DefaultSceneLayer::_CreateScene()
 
 		// Send the scene to the application
 		app.LoadScene(scene);
+
+		_active = true;
 	}
 }

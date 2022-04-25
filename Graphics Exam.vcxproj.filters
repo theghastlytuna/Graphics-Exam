@@ -351,6 +351,7 @@
     <ClInclude Include="src\Utils\Windows\FileDialogs.h">
       <Filter>Utils\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\EnemyBehaviour.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application\Application.cpp">
@@ -609,5 +610,6 @@
       <Filter>Utils\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\entry_point.cpp" />
+    <ClCompile Include="src\Gameplay\Components\EnemyBehaviour.cpp" />
   </ItemGroup>
 </Project>

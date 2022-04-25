@@ -139,6 +139,7 @@
     <ClInclude Include="src\Application\Windows\TextureWindow.h" />
     <ClInclude Include="src\Gameplay\Components\Camera.h" />
     <ClInclude Include="src\Gameplay\Components\ComponentManager.h" />
+    <ClInclude Include="src\Gameplay\Components\EnemyBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\FirstPersonCamera.h" />
     <ClInclude Include="src\Gameplay\Components\GUI\GuiPanel.h" />
     <ClInclude Include="src\Gameplay\Components\GUI\GuiText.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="src\Application\Windows\PostProcessingSettingsWindow.cpp" />
     <ClCompile Include="src\Application\Windows\TextureWindow.cpp" />
     <ClCompile Include="src\Gameplay\Components\Camera.cpp" />
+    <ClCompile Include="src\Gameplay\Components\EnemyBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\FirstPersonCamera.cpp" />
     <ClCompile Include="src\Gameplay\Components\GUI\GuiPanel.cpp" />
     <ClCompile Include="src\Gameplay\Components\GUI\GuiText.cpp" />

@@ -46,6 +46,7 @@
 #include "Gameplay/Components/ShadowCamera.h"
 #include "Gameplay/Components/FirstPersonCamera.h"
 #include "Gameplay/Components/PlayerControl.h"
+#include "Gameplay/Components/EnemyBehaviour.h"
 
 // GUI
 #include "Gameplay/Components/GUI/RectTransform.h"
@@ -270,6 +271,7 @@ void Application::_Run()
 		ImGuiHelper::EndFrame();
 
 		glfwSwapBuffers(_window);
+		GetLayer<DefaultSceneLayer>()->SetActive(true);
 
 	}
 
@@ -314,6 +316,7 @@ void Application::_RegisterClasses()
 	ComponentManager::RegisterType<ShadowCamera>();
 	ComponentManager::RegisterType<FirstPersonCamera>();
 	ComponentManager::RegisterType<PlayerControl>();
+	ComponentManager::RegisterType<EnemyBehaviour>();
 }
 
 void Application::_Load() {
@@ -436,6 +439,12 @@ void Application::_HandleWindowSizeChanged(const glm::ivec2& newSize) {
 			layer->OnWindowResize(_windowSize, newSize);
 		}
 	}
+
+	if (GetLayer<DefaultSceneLayer>()->IsActive())
+	{
+		GetLayer<DefaultSceneLayer>()->RepositionUI();
+	}
+
 	_windowSize = newSize;
 	_primaryViewport = { 0, 0, newSize.x, newSize.y };
 }
