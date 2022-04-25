@@ -168,12 +168,19 @@ void DefaultSceneLayer::_CreateScene()
 		// Load in the meshes
 		MeshResource::Sptr monkeyMesh = ResourceManager::CreateAsset<MeshResource>("Monkey.obj");
 		MeshResource::Sptr shipMesh   = ResourceManager::CreateAsset<MeshResource>("fenrir.obj");
+		MeshResource::Sptr snakeMesh = ResourceManager::CreateAsset<MeshResource>("snake.obj");
+		MeshResource::Sptr ballMesh = ResourceManager::CreateAsset<MeshResource>("hernia.obj");
+		MeshResource::Sptr treeMesh = ResourceManager::CreateAsset<MeshResource>("tree.obj");
 
 		// Load in some textures
 		Texture2D::Sptr    boxTexture   = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
 		Texture2D::Sptr    boxSpec      = ResourceManager::CreateAsset<Texture2D>("textures/box-specular.png");
 		Texture2D::Sptr    monkeyTex    = ResourceManager::CreateAsset<Texture2D>("textures/monkey-uvMap.png");
 		Texture2D::Sptr    leafTex      = ResourceManager::CreateAsset<Texture2D>("textures/leaves.png");
+		Texture2D::Sptr    snakeTex = ResourceManager::CreateAsset<Texture2D>("textures/snake.png");
+		Texture2D::Sptr    ballTex = ResourceManager::CreateAsset<Texture2D>("textures/hernia.png");
+		Texture2D::Sptr    treeTex = ResourceManager::CreateAsset<Texture2D>("textures/DioramaUVTextures.png");
+
 		leafTex->SetMinFilter(MinFilter::Nearest);
 		leafTex->SetMagFilter(MagFilter::Nearest);
 		Texture2D::Sptr    grassTex = ResourceManager::CreateAsset<Texture2D>("textures/minegrass.png");
@@ -249,6 +256,30 @@ void DefaultSceneLayer::_CreateScene()
 			boxMaterial->Set("u_Material.AlbedoMap", boxTexture);
 			boxMaterial->Set("u_Material.Shininess", 0.1f);
 			boxMaterial->Set("u_Material.NormalMap", normalMapDefault);
+		}
+
+		Material::Sptr snakeMaterial = ResourceManager::CreateAsset<Material>(deferredForward);
+		{
+			snakeMaterial->Name = "Snake";
+			snakeMaterial->Set("u_Material.AlbedoMap", snakeTex);
+			snakeMaterial->Set("u_Material.Shininess", 0.7f);
+			snakeMaterial->Set("u_Material.NormalMap", normalMapDefault);
+		}
+
+		Material::Sptr ballMaterial = ResourceManager::CreateAsset<Material>(deferredForward);
+		{
+			ballMaterial->Name = "Ball";
+			ballMaterial->Set("u_Material.AlbedoMap", ballTex);
+			ballMaterial->Set("u_Material.Shininess", 0.2f);
+			ballMaterial->Set("u_Material.NormalMap", normalMapDefault);
+		}
+
+		Material::Sptr treeMaterial = ResourceManager::CreateAsset<Material>(deferredForward);
+		{
+			treeMaterial->Name = "Tree";
+			treeMaterial->Set("u_Material.AlbedoMap", treeTex);
+			treeMaterial->Set("u_Material.Shininess", 0.2f);
+			treeMaterial->Set("u_Material.NormalMap", normalMapDefault);
 		}
 
 		Material::Sptr grassMaterial = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -371,11 +402,11 @@ void DefaultSceneLayer::_CreateScene()
 
 		// Create some lights for our scene
 		GameObject::Sptr light = scene->CreateGameObject("Light");
-		light->SetPosition(glm::vec3(0.f));
+		light->SetPosition(glm::vec3(-13, -10.f, 3));
 		Light::Sptr lightComponent = light->Add<Light>();
 		lightComponent->SetColor(glm::vec3(1.f));
 		lightComponent->SetRadius(15.f);
-		lightComponent->SetIntensity(1.f);
+		lightComponent->SetIntensity(18.f);
 
 		// We'll create a mesh that is a simple plane that we can resize later
 		MeshResource::Sptr planeMesh = ResourceManager::CreateAsset<MeshResource>();
@@ -434,10 +465,14 @@ void DefaultSceneLayer::_CreateScene()
 		{
 			enemy->SetPosition(glm::vec3(-10.f, 0.f, 4.f));
 
+			MeshResource::Sptr cube = ResourceManager::CreateAsset<MeshResource>();
+			cube->AddParam(MeshBuilderParam::CreateCube(ZERO, ONE));
+			cube->GenerateMesh();
+
 			// Create and attach a RenderComponent to the object to draw our mesh
 			RenderComponent::Sptr renderer = enemy->Add<RenderComponent>();
-			renderer->SetMesh(monkeyMesh);
-			renderer->SetMaterial(monkeyMaterial);
+			renderer->SetMesh(ballMesh);
+			renderer->SetMaterial(ballMaterial);
 
 			enemy->Add<EnemyBehaviour>();
 
@@ -446,7 +481,31 @@ void DefaultSceneLayer::_CreateScene()
 			trigger->SetFlags(TriggerTypeFlags::Dynamics);
 			trigger->AddCollider(BoxCollider::Create(glm::vec3(2.0f)));
 
-			enemy->Add<TriggerVolumeEnterBehaviour>();
+			//enemy->Add<TriggerVolumeEnterBehaviour>();
+		}
+
+		GameObject::Sptr snake = scene->CreateGameObject("Snake");
+		{
+			// Create and attach a RenderComponent to the object to draw our mesh
+			RenderComponent::Sptr renderer = snake->Add<RenderComponent>();
+			renderer->SetMesh(snakeMesh);
+			renderer->SetMaterial(snakeMaterial);
+
+			snake->SetPosition(glm::vec3(-35, 0.f, 2.f));
+			snake->SetScale(glm::vec3(3.f));
+			snake->SetRotation(glm::vec3(90.f, 0.f, 0.f));
+		}
+
+		GameObject::Sptr tree = scene->CreateGameObject("Tree");
+		{
+			// Create and attach a RenderComponent to the object to draw our mesh
+			RenderComponent::Sptr renderer = tree->Add<RenderComponent>();
+			renderer->SetMesh(treeMesh);
+			renderer->SetMaterial(treeMaterial);
+
+			tree->SetPosition(glm::vec3(-28.f, -40.0f, 0.0f));
+			tree->SetScale(glm::vec3(3.f));
+			tree->SetRotation(glm::vec3(90.f, 0.f, 0.f));
 		}
 
 		// Set up all our sample objects
@@ -467,55 +526,24 @@ void DefaultSceneLayer::_CreateScene()
 			physics->AddCollider(BoxCollider::Create(glm::vec3(50.0f, 50.0f, 1.0f)))->SetPosition({ 0,0,-1 });
 		}
 
-		// Add some walls :3
-		{
-			MeshResource::Sptr wall = ResourceManager::CreateAsset<MeshResource>();
-			wall->AddParam(MeshBuilderParam::CreateCube(ZERO, ONE));
-			wall->GenerateMesh();
-
-			GameObject::Sptr wall1 = scene->CreateGameObject("Wall1");
-			wall1->Add<RenderComponent>()->SetMesh(wall)->SetMaterial(whiteBrick);
-			wall1->SetScale(glm::vec3(20.0f, 1.0f, 3.0f));
-			wall1->SetPosition(glm::vec3(0.0f, 10.0f, 1.5f));
-			plane->AddChild(wall1);
-
-			GameObject::Sptr wall2 = scene->CreateGameObject("Wall2");
-			wall2->Add<RenderComponent>()->SetMesh(wall)->SetMaterial(whiteBrick);
-			wall2->SetScale(glm::vec3(20.0f, 1.0f, 3.0f));
-			wall2->SetPosition(glm::vec3(0.0f, -10.0f, 1.5f));
-			plane->AddChild(wall2);
-
-			GameObject::Sptr wall3 = scene->CreateGameObject("Wall3");
-			wall3->Add<RenderComponent>()->SetMesh(wall)->SetMaterial(whiteBrick);
-			wall3->SetScale(glm::vec3(1.0f, 20.0f, 3.0f));
-			wall3->SetPosition(glm::vec3(10.0f, 0.0f, 1.5f));
-			plane->AddChild(wall3);
-
-			GameObject::Sptr wall4 = scene->CreateGameObject("Wall4");
-			wall4->Add<RenderComponent>()->SetMesh(wall)->SetMaterial(whiteBrick);
-			wall4->SetScale(glm::vec3(1.0f, 20.0f, 3.0f));
-			wall4->SetPosition(glm::vec3(-10.0f, 0.0f, 1.5f));
-			plane->AddChild(wall4);
-		}
-
 		GameObject::Sptr winTrigger = scene->CreateGameObject("Win Trigger");
 		{
 			// Set position in the scene
-			winTrigger->SetPosition(glm::vec3(6.f, 0.0f, 1.0f));
+			winTrigger->SetPosition(glm::vec3(-40.f, -30.0f, 2.0f));
 
 			// Example of a trigger that interacts with static and kinematic bodies as well as dynamic bodies
 			TriggerVolume::Sptr trigger = winTrigger->Add<TriggerVolume>();
 			trigger->SetFlags(TriggerTypeFlags::Dynamics);
 			trigger->AddCollider(BoxCollider::Create(glm::vec3(2.0f)));
 
-			winTrigger->Add<TriggerVolumeEnterBehaviour>();
+			//winTrigger->Add<TriggerVolumeEnterBehaviour>();
 		}
 
 		GameObject::Sptr shadowCaster = scene->CreateGameObject("Shadow Light");
 		{
 			// Set position in the scene
-			shadowCaster->SetPosition(glm::vec3(3.0f, 3.0f, 5.0f));
-			shadowCaster->LookAt(glm::vec3(0.0f));
+			shadowCaster->SetPosition(glm::vec3(22.0f, -31.0f, 33.f));
+			shadowCaster->SetRotation(glm::vec3(28, 1, 60));
 
 			// Create and attach a renderer for the monkey
 			ShadowCamera::Sptr shadowCam = shadowCaster->Add<ShadowCamera>();
