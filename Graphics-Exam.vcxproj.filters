@@ -138,6 +138,9 @@
     <ClInclude Include="src\Gameplay\Components\ComponentManager.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\EnemyBehaviour.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\Components\FirstPersonCamera.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
@@ -429,6 +432,9 @@
       <Filter>Application\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\Camera.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\EnemyBehaviour.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\FirstPersonCamera.cpp">

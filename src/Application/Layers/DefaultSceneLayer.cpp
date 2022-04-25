@@ -176,6 +176,9 @@ void DefaultSceneLayer::_CreateScene()
 		Texture2D::Sptr    leafTex      = ResourceManager::CreateAsset<Texture2D>("textures/leaves.png");
 		leafTex->SetMinFilter(MinFilter::Nearest);
 		leafTex->SetMagFilter(MagFilter::Nearest);
+		Texture2D::Sptr    grassTex = ResourceManager::CreateAsset<Texture2D>("textures/minegrass.png");
+		grassTex->SetMinFilter(MinFilter::Nearest);
+		grassTex->SetMagFilter(MagFilter::Nearest);
 
 		Texture2DArray::Sptr particleTex = ResourceManager::CreateAsset<Texture2DArray>("textures/particles.png", 2, 2);
 
@@ -216,7 +219,7 @@ void DefaultSceneLayer::_CreateScene()
 		toonLut->SetWrap(WrapMode::ClampToEdge);
 
 		// Here we'll load in the cubemap, as well as a special shader to handle drawing the skybox
-		TextureCube::Sptr testCubemap = ResourceManager::CreateAsset<TextureCube>("cubemaps/ocean/ocean.jpg");
+		TextureCube::Sptr testCubemap = ResourceManager::CreateAsset<TextureCube>("cubemaps/sky/sky.jpg");
 		ShaderProgram::Sptr      skyboxShader = ResourceManager::CreateAsset<ShaderProgram>(std::unordered_map<ShaderPartType, std::string>{
 			{ ShaderPartType::Vertex, "shaders/vertex_shaders/skybox_vert.glsl" },
 			{ ShaderPartType::Fragment, "shaders/fragment_shaders/skybox_frag.glsl" } 
@@ -244,6 +247,14 @@ void DefaultSceneLayer::_CreateScene()
 		{
 			boxMaterial->Name = "Box";
 			boxMaterial->Set("u_Material.AlbedoMap", boxTexture);
+			boxMaterial->Set("u_Material.Shininess", 0.1f);
+			boxMaterial->Set("u_Material.NormalMap", normalMapDefault);
+		}
+
+		Material::Sptr grassMaterial = ResourceManager::CreateAsset<Material>(deferredForward);
+		{
+			boxMaterial->Name = "grassMat";
+			boxMaterial->Set("u_Material.AlbedoMap", grassTex);
 			boxMaterial->Set("u_Material.Shininess", 0.1f);
 			boxMaterial->Set("u_Material.NormalMap", normalMapDefault);
 		}
@@ -443,7 +454,7 @@ void DefaultSceneLayer::_CreateScene()
 		{
 			// Make a big tiled mesh
 			MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-			tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(20.0f)));
+			tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(50.0f)));
 			tiledMesh->GenerateMesh();
 
 			// Create and attach a RenderComponent to the object to draw our mesh
@@ -522,7 +533,7 @@ void DefaultSceneLayer::_CreateScene()
 			emitter.Type = ParticleType::SphereEmitter;
 			emitter.TexID = 2;
 			emitter.Position = glm::vec3(0.0f);
-			emitter.Color = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+			emitter.Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 			emitter.Lifetime = 0.0f;
 			emitter.SphereEmitterData.Timer = 1.0f / 50.0f;
 			emitter.SphereEmitterData.Velocity = 0.5f;
