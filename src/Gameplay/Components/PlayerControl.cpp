@@ -18,7 +18,7 @@
 PlayerControl::PlayerControl()
 	: IComponent(),
 	_mouseSensitivity({ 0.2f, 0.2f }),
-	_moveSpeeds(glm::vec3(6.0f)),
+	_moveSpeeds(glm::vec3(600.0f)),
 	_shiftMultipler(2.0f),
 	_currentRot(glm::vec2(0.0f)),
 	_isMousePressed(false),
@@ -96,19 +96,19 @@ void PlayerControl::Update(float deltaTime)
 
 	glm::vec3 input = glm::vec3(0.0f);
 	if (moveForward) {
-		input.z += _moveSpeeds.x;
-		_isMoving = true;
-	}
-	if (moveBack) {
 		input.z -= _moveSpeeds.x;
 		_isMoving = true;
 	}
+	if (moveBack) {
+		input.z += _moveSpeeds.x;
+		_isMoving = true;
+	}
 	if (moveLeft) {
-		input.x += _moveSpeeds.y;
+		input.x -= _moveSpeeds.y;
 		_isMoving = true;
 	}
 	if (moveRight) {
-		input.x -= _moveSpeeds.y;
+		input.x += _moveSpeeds.y;
 		_isMoving = true;
 	}
 
@@ -130,11 +130,6 @@ bool PlayerControl::IsMoving()
 bool PlayerControl::IsSprinting()
 {
 	return _isSprinting;
-}
-
-bool PlayerControl::GetJustThrew()
-{
-	return _justThrew;
 }
 
 void PlayerControl::RenderImGui()
