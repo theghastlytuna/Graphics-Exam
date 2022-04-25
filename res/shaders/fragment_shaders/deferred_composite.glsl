@@ -26,6 +26,10 @@ void main() {
 
         outColor = vec4(albedo * (diffuse + 0 + (emissive.rgb * emissive.a)), 1.0);
     }
+    else if (IsFlagSet(FLAG_ENABLE_AMBIENT_LIGHT))
+    {
+        outColor = vec4(albedo * (0 + 0 + (emissive.rgb * emissive.a)), 1.0);
+    }
 
     else if (IsFlagSet(FLAG_ENABLE_SPECULAR_LIGHT))
     {

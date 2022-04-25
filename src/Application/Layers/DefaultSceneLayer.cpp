@@ -190,9 +190,10 @@ void DefaultSceneLayer::_CreateScene()
 			{ ShaderPartType::Vertex, "shaders/vertex_shaders/skybox_vert.glsl" },
 			{ ShaderPartType::Fragment, "shaders/fragment_shaders/skybox_frag.glsl" } 
 		});
-		  
+		
 		// Create an empty scene
 		Scene::Sptr scene = std::make_shared<Scene>();  
+		scene->SetAmbientLight(glm::vec3(0.1f));
 
 		// Setting up our enviroment map
 		scene->SetSkyboxTexture(testCubemap); 
