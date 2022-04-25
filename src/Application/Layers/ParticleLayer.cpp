@@ -36,7 +36,6 @@ void ParticleLayer::OnPostRender()
 	const glm::uvec4& viewport = app.GetPrimaryViewport();
 
 	// Restore viewport to game viewport
-
 	RenderLayer::Sptr renderer = app.GetLayer<RenderLayer>();
 	const Framebuffer::Sptr renderOutput = renderer->GetRenderOutput();
 	renderOutput->Bind();
@@ -47,6 +46,6 @@ void ParticleLayer::OnPostRender()
 			system->Render(); 
 		}
 	});
-
-	renderer->GetRenderOutput()->Unbind();
+	
+	//renderer->GetRenderOutput()->Unbind();
 }

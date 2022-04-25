@@ -8,6 +8,7 @@
 #include "Gameplay/Components/ComponentManager.h"
 #include "Gameplay/Components/RenderComponent.h"
 #include "Gameplay/Components/Light.h"
+#include "Graphics/Buffers/UniformBuffer.h" 
 
 // GLM math library
 #include <GLM/glm.hpp>
@@ -385,6 +386,16 @@ void RenderLayer::OnWindowResize(const glm::ivec2& oldSize, const glm::ivec2& ne
 	// Update the main camera's projection
 	Application& app = Application::Get();
 	app.CurrentScene()->MainCamera->ResizeWindow(newSize.x, newSize.y);
+}
+
+UniformBuffer<RenderLayer::InstanceLevelUniforms>::Sptr RenderLayer::GetInstanceUniforms()
+{
+	return _instanceUniforms;
+}
+
+UniformBuffer<RenderLayer::FrameLevelUniforms>::Sptr RenderLayer::GetFrameUniforms()
+{
+	return _frameUniforms;
 }
 
 void RenderLayer::OnAppLoad(const nlohmann::json& config)
